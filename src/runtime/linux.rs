@@ -87,7 +87,7 @@ pub struct Linux {
 
     #[serde(default, skip_serializing_if = "Option::is_none")]
     /// TimeOffsets specifies the offset for supporting time namespaces.
-    time_offsets: Option<HashMap<String, String>>,
+    time_offsets: Option<HashMap<String, LinuxTimeOffsets>>,
 }
 
 // Default impl for Linux (see funtions for more info)
@@ -1350,6 +1350,28 @@ impl Default for LinuxPersonalityDomain {
     fn default() -> Self {
         Self::PerLinux
     }
+}
+
+#[derive(
+    Builder,
+    Clone,
+    CopyGetters,
+    Debug,
+    Default,
+    Deserialize,
+    Eq,
+    Getters,
+    Setters,
+    PartialEq,
+    Serialize,
+)]
+#[serde(rename_all = "camelCase")]
+/// LinuxTimeOffset specifies the offset for Time Namespace
+pub struct LinuxTimeOffsets {
+    /// Secs is the offset of clock (in secs) in the container
+    pub secs: i64,
+    /// Nanosecs is the additional offset for Secs (in nanosecs)
+    pub nanosecs: u32,
 }
 
 #[cfg(feature = "proptests")]
