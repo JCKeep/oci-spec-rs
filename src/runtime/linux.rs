@@ -1366,12 +1366,19 @@ impl Default for LinuxPersonalityDomain {
     Serialize,
 )]
 #[serde(rename_all = "camelCase")]
+#[builder(
+    default,
+    pattern = "owned",
+    setter(into, strip_option),
+    build_fn(error = "OciSpecError")
+)]
+#[getset(get_copy = "pub", set = "pub")]
 /// LinuxTimeOffset specifies the offset for Time Namespace
 pub struct LinuxTimeOffsets {
     /// Secs is the offset of clock (in secs) in the container
-    pub secs: i64,
+    secs: i64,
     /// Nanosecs is the additional offset for Secs (in nanosecs)
-    pub nanosecs: u32,
+    nanosecs: u32,
 }
 
 #[cfg(feature = "proptests")]
